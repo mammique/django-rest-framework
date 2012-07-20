@@ -84,7 +84,7 @@
 				<form action="{{ request.get_full_path }}" method="post" {% if post_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
 				<fieldset class='module aligned'>
 					<h2>POST {{ name }}</h2>
-				    {% if post_form.non_field_errors %}<div class="errors"><strong>"errors":</strong> [{{ post_form.non_field_errors }}]</div>{% endif %}
+				    {% if post_form.non_field_errors %}<div class="errors"><strong>"errors":</strong> [{{ post_form.non_field_errors }}]<span class="separator">,</span></div>{% endif %}
 				    {% csrf_token %}
 					<div class="data">
 					{
@@ -92,7 +92,7 @@
 					{% for field in post_form %}
 					<tr>
 					    <th>"{{ field.name }}":</th>
-					    <td>{{ field }}
+					    <td>{{ field }}{% if not forloop.last %}<span class="separator">,</span>{% endif %}
 					    {% if field.help_text %}<p class='help'>{{ field.help_text }}</p>{% endif %}
 					    {{ field.errors }}
 					    </td>
@@ -100,9 +100,9 @@
 					{% endfor %}
 					</table>
 					}
-						<div class='submit-row'>
-							<input type="submit" value="POST" class="default" />
-						</div>
+					</div>
+					<div class='submit-row'>
+						<input type="submit" value="POST" class="default" />
 					</div>
 				</fieldset>
 				</form>
@@ -112,7 +112,7 @@
 				<form action="{{ request.get_full_path }}" method="post" {% if put_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
 				<fieldset class='module aligned'>
 					<h2>PUT {{ name }}</h2>
-				    {% if put_form.non_field_errors %}<div class="errors"><strong>"errors":</strong> [{{ put_form.non_field_errors }}]</div>{% endif %}
+				    {% if put_form.non_field_errors %}<div class="errors"><strong>"errors":</strong> [{{ put_form.non_field_errors }}]<span class="separator">,</span></div>{% endif %}
 				    <input type="hidden" name="{{ METHOD_PARAM }}" value="PUT" />
 				    {% csrf_token %}
 					<div class="data">
@@ -121,7 +121,7 @@
 					{% for field in put_form %}
 					<tr>
 					    <th>"{{ field.name }}":</th>
-					    <td>{{ field }}
+					    <td>{{ field }}{% if not forloop.last %}<span class="separator">,</span>{% endif %}
 					    {% if field.help_text %}<p class='help'>{{ field.help_text }}</p>{% endif %}
 					    {{ field.errors }}
 					    </td>
@@ -129,9 +129,9 @@
 					{% endfor %}
 					</table>
 					}
-						<div class='submit-row'>
-							<input type="submit" value="PUT" class="default" />
-						</div>
+					</div>
+					<div class='submit-row'>
+						<input type="submit" value="PUT" class="default" />
 					</div>
 				</fieldset>
 				</form>
