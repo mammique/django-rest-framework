@@ -91,9 +91,14 @@
 					<table>
 					{% for field in post_form %}
 					<tr>
-					    <th>"{{ field.name }}":</th>
+                        <th>"{{ field.name }}":</th>
 					    <td>{{ field }}{% if not forloop.last %}<span class="separator">,</span>{% endif %}
-					    {% if field.help_text %}<p class='help'>{{ field.help_text }}</p>{% endif %}
+                            <p class='help'>
+                            {{ field.help_text }}
+                            {% if field.field.max_length %}Max length: {{ field.field.max_length }}.{% endif %}
+                            {% if field.field.min_length %}Min length: {{ field.field.min_length }}.{% endif %}
+                            {% if field.field.required %}Required.{% endif %}
+                            </p>
 					    {{ field.errors }}
 					    </td>
 					</tr>
@@ -122,7 +127,12 @@
 					<tr>
 					    <th>"{{ field.name }}":</th>
 					    <td>{{ field }}{% if not forloop.last %}<span class="separator">,</span>{% endif %}
-					    {% if field.help_text %}<p class='help'>{{ field.help_text }}</p>{% endif %}
+                            <p class='help'>
+                            {{ field.help_text }}
+                            {% if field.field.max_length %}Max length: {{ field.field.max_length }}.{% endif %}
+                            {% if field.field.min_length %}Min length: {{ field.field.min_length }}.{% endif %}
+                            {% if field.field.required %}Required.{% endif %}
+                            </p>
 					    {{ field.errors }}
 					    </td>
 					</tr>
