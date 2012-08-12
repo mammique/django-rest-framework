@@ -681,14 +681,16 @@ class PaginatorMixin(object):
         if not page.has_next():
             return None
 
-        return self.url_with_page_number(page.next_page_number())
+        uri = self.url_with_page_number(page.next_page_number())
+        return self.request.build_absolute_uri(uri)
 
     def previous(self, page):
         """ Returns a url to the previous page of results (if any) """
         if not page.has_previous():
             return None
 
-        return self.url_with_page_number(page.previous_page_number())
+        uri = self.url_with_page_number(page.previous_page_number())
+        return self.request.build_absolute_uri(uri)
 
     def serialize_page_info(self, page):
         """
@@ -895,16 +897,18 @@ except for the <code>exact</code> suffix which is the default:</p>
             else: q_or = False
 
             field = k.split('__')
+            if len(field) > 2: continue
             if len(field) == 2: lookup = field[1]
             else: lookup = 'exact'
             field = field[0]
 
             if v and field in self.filter_fields and lookup in self.filter_fields[field]:
 
+                key = '%s__%s' % (field, lookup)
                 v = self._filter_lookups[lookup](field, v)
-                if not q_or: kwargs['%s__%s' % (field, lookup)] = v
+                if not q_or: kwargs[key] = v
                 else:
-                    q_this = Q(**{'%s__%s' % (field, lookup): v})
+                    q_this = Q(**{key: v})
                     if q: q = q | q_this
                     else: q = q_this
                 self._filter_triggered = True
