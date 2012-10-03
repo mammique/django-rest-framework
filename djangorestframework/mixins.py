@@ -905,6 +905,12 @@ except for the <code>exact</code> suffix which is the default:</p>
             if v and field in self.filter_fields and lookup in self.filter_fields[field]:
 
                 key = '%s__%s' % (field, lookup)
+
+                ## UUID FIX.
+                #if hasattr(self.resource.model, field) and \
+                #    getattr(self.resource.model, field).__module__ == \
+                #    'django.db.models.fields.related': key = '%s__uuid__%s' % (field, lookup)
+
                 v = self._filter_lookups[lookup](field, v)
                 if not q_or: kwargs[key] = v
                 else:
