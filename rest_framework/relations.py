@@ -157,7 +157,7 @@ class RelatedField(WritableField):
                 return
             value = [] if self.many else None
 
-        if value in (None, '') and self.required:
+        if value in (None, '', []) and self.required:
             raise ValidationError(self.error_messages['required'])
         elif value in (None, ''):
             into[(self.source or field_name)] = None
